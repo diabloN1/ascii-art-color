@@ -20,7 +20,10 @@ func main() {
 		return
 	}
 	str := os.Args[len(os.Args)-1]
-	standard := Read("standard.txt")
+	standard, err := Read("standard.txt")
+	if err != nil {
+		return
+	}
 	asciiChars := BytesToAsciiMap([]byte(standard))
 	flags, params, err := HandleFlags(os.Args[1:len(os.Args)-1])
 	if err != nil {
@@ -237,22 +240,33 @@ func BytesToAsciiMap(style []byte) map[int][]string {
 	return chars
 }
 
-func Read(fileName string) string {
-	str := ""
+func Read(fileName string) (string, error) {
+	
+	//Open File.
     file, err := os.Open(fileName)
 	if err != nil {
-		log.Println("error opening the file")
+		log.Println("error opening file :", fileName)
+		return "", err
 	}
-    defer file.Close()
 
-    chunck := make([]byte, 1)
-
-    for {
-        n, err := file.Read(chunck)
-        if err != nil {
-            break
-        }
-        str += string(chunck[:n])
+	defer file.Close()
+	
+	//Get file info.
+    fileInfo, err := file.Stat()
+    if err != nil {
+        log.Println("Error getting file stats:", err)
+		return "", err
     }
-	return str
+
+    //Get file size.
+    fileSize := fileInfo.Size()
+    data := make([]byte, fileSize)
+
+	//Reading data.
+    _, err = file.Read(data)
+    if err != nil {
+		log.Println("Error reading the file:", err)
+		return "", err
+    }
+	return string(data), nil
 }
