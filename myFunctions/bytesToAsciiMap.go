@@ -1,31 +1,17 @@
 package myFunctions
 
+import (
+	"strings"
+)
+
 func BytesToAsciiMap(style []byte) map[int][]string {
 	chars := make(map[int][]string)
-	line := 1
-	next := 9
-	lineS := ""
-	char := []string{}
-	nbrChar := 32
-	for i := 1; i < len(style); i++ {
-		if i < len(style) - 1 {
-		 	if style[i] == '\n' {
-				char = append(char, lineS)
-				lineS = ""
-				line++
-
-			} else if line == next+1 {
-				next += 9
-				chars[nbrChar] = char //[1:len(char)-2]
-				nbrChar++
-				char = []string{}
-				continue
-			}
-			lineS += string(style[i])
-		} else {
-			lineS += string(style[i])
-			chars[nbrChar] = char
-		}
+	intValue := 32
+	splitedStyle := strings.Split(string(style[1:]), "\n\n")
+	//Range char by char standard to fill each ascii separatly in the map.
+	for _, v := range splitedStyle {
+		chars[intValue] = strings.Split(v, "\n")
+		intValue++
 	}
 	return chars
 }

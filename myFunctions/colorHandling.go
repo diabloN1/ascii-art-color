@@ -1,6 +1,8 @@
 package myFunctions
 
 import (
+	"log"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -22,12 +24,15 @@ func ColorHandling(color string) string {
 		color = "\033[36m"
 	} else if color == "white" {
 		color = "\033[37m"
-	} else if color [:4] == "rgb(" && color[len(color)-1] == ')' {
+	} else if len(color) > 5 && color [:4] == "rgb(" && color[len(color)-1] == ')' {
 		rgb := strings.Split(color[:len(color)-1], ", ")
 		r, _ := strconv.Atoi(rgb[0])
 		g, _ := strconv.Atoi(rgb[1])
 		b, _ := strconv.Atoi(rgb[2])
 		color = RGBColor(r, g, b)
+	} else {
+		log.Println("This color does not exist :", color)
+		os.Exit(1)
 	}
 	return color
 }

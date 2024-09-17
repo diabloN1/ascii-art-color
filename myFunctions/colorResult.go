@@ -9,14 +9,13 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 					continue
 				}
 				for line := 0; line < len(result[charSlice]); line++ {
-					if len(result[charSlice][line]) > 8 && result[charSlice][line][1:6] == color {
+					if len(result[charSlice][line]) > 8 && result[charSlice][line][0:5] == color {
 						continue
-					} else if len(result[charSlice][line]) > 7 && result[charSlice][line][1] == '\033' {
-						result[charSlice][line] = RemoveInIndex(result[charSlice][line], 0, 5) 
-						result[charSlice][line] = RemoveInIndex(result[charSlice][line], len(result[charSlice][line])-6, 5)
+					} else if len(result[charSlice][line]) > 7 && result[charSlice][line][0] == '\033' {
+						result[charSlice][line] = result[charSlice][line][5:]
+						result[charSlice][line] = result[charSlice][line][:len(result[charSlice][line])-5]
 					}
-					result[charSlice][line] = AddInIndex(result[charSlice][line], color, 1)
-					result[charSlice][line] = AddInIndex(result[charSlice][line], "\033[37m", len(result[charSlice][line])-1)
+					result[charSlice][line] = color + result[charSlice][line] + "\033[37m"
 				}
 			}
 		} else {
@@ -30,14 +29,13 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 				if str[j:j+len(params[i])] == params[i] {
 					for charSlice := j-countReturn; charSlice < j+len(params[i])-countReturn; charSlice++ {
 						for line := 0; line < len(result[charSlice]); line++ {
-							if len(result[charSlice][line]) > 8 && result[charSlice][line][1:6] == color {
+							if len(result[charSlice][line]) > 8 && result[charSlice][line][0:5] == color {
 								continue
-							} else if len(result[charSlice][line]) > 7 && result[charSlice][line][1] == '\033' {
-								result[charSlice][line] = RemoveInIndex(result[charSlice][line], 0, 5) 
-								result[charSlice][line] = RemoveInIndex(result[charSlice][line], len(result[charSlice][line])-6, 5)
+							} else if len(result[charSlice][line]) > 7 && result[charSlice][line][0] == '\033' {
+								result[charSlice][line] = result[charSlice][line][5:]
+								result[charSlice][line] = result[charSlice][line][:len(result[charSlice][line])-5]
 							}
-							result[charSlice][line] = AddInIndex(result[charSlice][line], color, 1)
-							result[charSlice][line] = AddInIndex(result[charSlice][line], "\033[37m", len(result[charSlice][line])-1)
+							result[charSlice][line] = color + result[charSlice][line] + "\033[37m"
 						}
 					}
 				}

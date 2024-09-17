@@ -13,7 +13,7 @@ func MakeResultChars(str string, asciiChars map[int][]string) ([][]string, error
 			chars = append(chars, []string{"\n"})
 			i++
 		} else {
-			chars = append(chars, asciiChars[int(str[i])][1:])
+			chars = append(chars, asciiChars[int(str[i])])
 		}
 	}
 	return chars, nil
