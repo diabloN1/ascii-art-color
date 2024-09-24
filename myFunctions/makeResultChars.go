@@ -13,7 +13,10 @@ func MakeResultChars(str string, asciiChars map[int][]string) ([][]string, error
 			chars = append(chars, []string{"\n"})
 			i++
 		} else {
-			chars = append(chars, asciiChars[int(str[i])])
+			// Create a copy of the slice from asciiChars to solve dependecy of 2 chars if they are the same.
+			asciiCharCopy := make([]string, len(asciiChars[int(str[i])]))
+			copy(asciiCharCopy, asciiChars[int(str[i])])
+			chars = append(chars, asciiCharCopy)
 		}
 	}
 	return chars, nil

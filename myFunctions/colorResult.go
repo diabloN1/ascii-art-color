@@ -1,5 +1,7 @@
 package myFunctions
 
+
+// go run . --color=red "lo\n" "lo\nllllo\n".
 func ColorResult(str string, flags, params []string, result [][]string) [][]string {
 	for i := range flags {
 		color := ColorHandling(flags[i])
@@ -29,6 +31,10 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 				if str[j:j+len(params[i])] == params[i] {
 					for charSlice := j-countReturn; charSlice < j+len(params[i])-countReturn; charSlice++ {
 						for line := 0; line < len(result[charSlice]); line++ {
+							if result[charSlice][0] == "\n" {
+								countReturn++
+								continue
+							}
 							if len(result[charSlice][line]) > 8 && result[charSlice][line][0:5] == color {
 								continue
 							} else if len(result[charSlice][line]) > 7 && result[charSlice][line][0] == '\033' {
