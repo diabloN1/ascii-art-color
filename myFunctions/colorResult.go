@@ -1,8 +1,13 @@
 package myFunctions
 
+import "fmt"
 
 // go run . --color=red "lo\n" "lo\nllllo\n".
 func ColorResult(str string, flags, params []string, result [][]string) [][]string {
+	str = remakeMewLines(str)
+	for i := range params {
+		params[i] = remakeMewLines(params[i])
+	}
 	for i := range flags {
 		color := ColorHandling(flags[i])
 		if params[i] == "" {
@@ -21,18 +26,15 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 				}
 			}
 		} else {
-			countReturn := 0
 			for j := 0; j <= len(str) - len(params[i]); j++ {
-				if str[j] == '\\' && str[j+1] == 'n' {
-					j++
-					countReturn++
-					continue
-				}
+				fmt.Println(params)
+				fmt.Println(str[j:j+len(params[i])])
 				if str[j:j+len(params[i])] == params[i] {
-					for charSlice := j-countReturn; charSlice < j+len(params[i])-countReturn; charSlice++ {
+					fmt.Println("ok")
+					for charSlice := j; charSlice < j+len(params[i]); charSlice++ {
 						for line := 0; line < len(result[charSlice]); line++ {
 							if result[charSlice][0] == "\n" {
-								countReturn++
+								
 								continue
 							}
 							if len(result[charSlice][line]) > 8 && result[charSlice][line][0:5] == color {
@@ -49,4 +51,17 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 		}
 	}
 	return result
+}
+
+func remakeMewLines(str string) string {
+	newStr := ""
+	for i:=0; i < len(str); i++ {
+		if i+1 < len(str) && str[i] == '\\' && str[i+1] == 'n' {
+			newStr+="\n"
+			i++
+		} else {
+			newStr+=string(str[i])
+		}
+	}
+	return newStr
 }
