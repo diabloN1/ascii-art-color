@@ -1,7 +1,5 @@
 package myFunctions
 
-import "fmt"
-
 // go run . --color=red "lo\n" "lo\nllllo\n".
 func ColorResult(str string, flags, params []string, result [][]string) [][]string {
 	str = remakeMewLines(str)
@@ -27,10 +25,7 @@ func ColorResult(str string, flags, params []string, result [][]string) [][]stri
 			}
 		} else {
 			for j := 0; j <= len(str) - len(params[i]); j++ {
-				fmt.Println(params)
-				fmt.Println(str[j:j+len(params[i])])
 				if str[j:j+len(params[i])] == params[i] {
-					fmt.Println("ok")
 					for charSlice := j; charSlice < j+len(params[i]); charSlice++ {
 						for line := 0; line < len(result[charSlice]); line++ {
 							if result[charSlice][0] == "\n" {
